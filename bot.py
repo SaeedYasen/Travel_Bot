@@ -6,32 +6,6 @@ from datetime import datetime
 import bot_secrets  # חייב להכיל את TOKEN שלך
 import re
 
-from promptic import llm
-from pydantic import BaseModel
-from bot_secrets import GEMINI_API_KEY
-
-
-class GeminiAnswer(BaseModel):
-    answer: str
-
-
-@llm(
-    model="gemini/gemini-1.5-flash",
-    api_key=GEMINI_API_KEY,
-)
-def ask_gemini_about_trip(title: str, place: str) -> str:
-    """
-    Write a short and interesting summary in Hebrew about the following travel site:
-    Title: {title}
-    Location: {place}
-
-    Include a bit of history, what visitors can see there, and why it's worth visiting.
-    Do not exceed 5 sentences.
-    """
-
-
-
-
 def escape_markdown(text):
     """
     בורחת תווים בעייתיים עבור parse_mode="Markdown"
@@ -142,30 +116,7 @@ def handle_feedback(message):
         }
         state["history"].append(saved)
         bot.send_message(user_id, f"✅ {trip['title']} saved to your trip history!")
-        try:
-            # Notify user while fetching info
-            thinking_msg = bot.send_message(user_id, "🧭Gathering details about the place… please wait a moment.")
-
-            # Get summary from Gemini
-            gemini_text = ask_gemini_about_trip(trip["title"], trip["place"])
-
-            # Escape Markdown characters
-            cleaned_answer = escape_markdown(gemini_text)
-            cleaned_title = escape_markdown(trip["title"])
-
-            # Update message with Gemini's response
-            bot.edit_message_text(
-                chat_id=user_id,
-                message_id=thinking_msg.message_id,
-                text=f"📍 Want to know more about *{cleaned_title}*?\n\n{cleaned_answer}",
-                parse_mode="Markdown"
-            )
-
-        except Exception as e:
-            print("Gemini error:", e)
-            bot.send_message(user_id, "❌ Failed to get more info from Gemini.")
-
-
+        bot.send_message(user_id, f" gemini text")
     else:
         bot.send_message(user_id, "skipped")
         state["index"] += 1
