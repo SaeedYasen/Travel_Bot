@@ -3,6 +3,7 @@ name = "bothackathon"
 version = "0.1.0"
 requires-python = "~=3.13.0"
 dependencies = [
+    "promptic>=5.5.1",
     "pytelegrambotapi>=4.26.0",
 ]
 
