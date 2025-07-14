@@ -144,7 +144,7 @@ def handle_feedback(message):
         bot.send_message(user_id, f"✅ {trip['title']} saved to your trip history!")
         try:
             # Notify user while fetching info
-            thinking_msg = bot.send_message(user_id, "🧭 Gathering details about the place… please wait a moment.")
+            thinking_msg = bot.send_message(user_id, "🧭Gathering details about the place… please wait a moment.")
 
             # Get summary from Gemini
             gemini_text = ask_gemini_about_trip(trip["title"], trip["place"])
