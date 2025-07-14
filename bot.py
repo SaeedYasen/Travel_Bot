@@ -3,11 +3,12 @@ import telebot
 from telebot import types
 import json
 from datetime import datetime
+import bot_secrets  # חייב להכיל את TOKEN שלך
 import re
 
 from promptic import llm
 from pydantic import BaseModel
-from bot_secrets import GEMINI_API_KEY,TOKEN
+from bot_secrets import GEMINI_API_KEY
 
 
 class GeminiAnswer(BaseModel):
@@ -37,7 +38,7 @@ def escape_markdown(text):
     """
     return re.sub(r'([_*\[\]()~`>#+\-=|{}.!])', r'\\\1', text)
 # Bot setup
-bot = telebot.TeleBot(TOKEN)
+bot = telebot.TeleBot(bot_secrets.TOKEN)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -48,7 +49,7 @@ user_state = {}  # user_id -> { "area": ..., "index": ..., "history": [...] }
 # Load trip data once
 with open("db.json", "r", encoding="utf-8") as f:
     all_trips = json.load(f)
-#test
+
 area_map = {
     "North": "North",
     "Centre": "Centre",
@@ -78,8 +79,8 @@ def start(message):
     bot.send_message(
         user_id,
         "Welcome to Saeed, Raz and Yara's TravelBot! 🌍\nLet’s plan your next trip.\nChoose a travel area:",
-        reply_markup=markup,
-    )
+        reply_markup=markup,)
+
 
 
 # ----------- area selection -----------
@@ -122,7 +123,7 @@ def suggest_trip(message):
         f"{trip['image_url']}\n"
         f"{trip['place']}"
     )
-
+#test
     bot.send_message(user_id, message_text, reply_markup=markup)
 
 
@@ -194,7 +195,6 @@ def show_history(message):
     for i, trip in enumerate(history, 1):
         response += f"{i}. {trip['title']} – {trip['area']} – saved on {trip['date']}\n"
     bot.send_message(user_id, response)
-
 
 
 # ----------- /clear -----------
