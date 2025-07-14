@@ -157,7 +157,7 @@ def handle_feedback(message):
             gemini_text = ask_gemini_about_trip(trip["title"], trip["place"])
             cleaned_answer = escape_markdown(gemini_text)
             cleaned_title = escape_markdown(trip["title"])
-            bot.send_message(user_id, f"📍 Want to know more about *{cleaned_title}*?\n\n{cleaned_answer}",
+            bot.send_message(user_id, f"📍  *{cleaned_title}*\n\n{cleaned_answer}",
                              parse_mode="Markdown")
         except Exception as e:
             print("Gemini error:", e)
