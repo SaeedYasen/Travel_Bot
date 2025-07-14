@@ -63,6 +63,17 @@ area_map = {
 @bot.message_handler(commands=["start"])
 def start(message):
     user_id = message.chat.id
+
+    # שמירה על ההיסטוריה הקיימת אם יש כזו
+    previous_history = user_state.get(user_id, {}).get("history", [])
+
+    # עדכון ה־user_state בלי למחוק את ההיסטוריה
+    user_state[user_id] = {
+        "area": None,
+        "index": 0,
+        "history": previous_history
+    }
+
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("North", "Centre", "South", "Nearby")
     bot.send_message(
@@ -158,6 +169,17 @@ def handle_feedback(message):
         state["index"] += 1
         suggest_trip(message)
 
+def save_trip(user_id, trip, area):
+    if user_id not in user_state:
+        user_state[user_id] = {"history": []}
+    if "history" not in user_state[user_id]:
+        user_state[user_id]["history"] = []
+
+    user_state[user_id]["history"].append({
+        "title": trip["title"],
+        "area": area,
+        "date": datetime.now().strftime("%Y-%m-%d %H:%M")
+    })
 
 
 # ----------- /history -----------
@@ -174,6 +196,7 @@ def show_history(message):
     for i, trip in enumerate(history, 1):
         response += f"{i}. {trip['title']} – {trip['area']} – saved on {trip['date']}\n"
     bot.send_message(user_id, response)
+
 
 
 # ----------- /clear -----------
