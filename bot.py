@@ -153,6 +153,7 @@ def handle_feedback(message):
         state["history"].append(saved)
         bot.send_message(user_id, f"✅ {trip['title']} saved to your trip history!")
         try:
+            thinking_msg = bot.send_message(user_id, "🧭Gathering details about the place… please wait a moment.")
             gemini_text = ask_gemini_about_trip(trip["title"], trip["place"])
             cleaned_answer = escape_markdown(gemini_text)
             cleaned_title = escape_markdown(trip["title"])
