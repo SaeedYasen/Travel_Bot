@@ -3,7 +3,7 @@ import telebot
 from telebot import types
 import json
 from datetime import datetime
-import bot_secrets  # חייב להכיל את TOKEN שלך
+import bot_secrets 
 import re
 
 from promptic import llm
@@ -153,7 +153,9 @@ def handle_feedback(message):
         state["history"].append(saved)
         bot.send_message(user_id, f"✅ {trip['title']} saved to your trip history!")
         try:
+            thinking_msg = bot.send_message(user_id, "🧭Gathering details about the place… please wait a moment.")
             gemini_text = ask_gemini_about_trip(trip["title"], trip["place"])
+
         except Exception as e:
             print("Gemini error:", e)
             bot.send_message(user_id, f"❌ Failed to get more info from Gemini.\n{e}")
