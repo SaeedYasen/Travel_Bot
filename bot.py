@@ -26,10 +26,9 @@ def ask_gemini_about_trip(title: str, place: str) -> str:
     Location: {place}
 
     Include a bit of history, what visitors can see there, and why it's worth visiting.
-    Do not exceed 5 sentences.
+    Do not exceed 5 sentences. write it in bullet points and add emojis.
+    return me markdown text for telegram
     """
-
-
 
 
 def escape_markdown(text):
@@ -37,6 +36,8 @@ def escape_markdown(text):
     בורחת תווים בעייתיים עבור parse_mode="Markdown"
     """
     return re.sub(r'([_*\[\]()~`>#+\-=|{}.!])', r'\\\1', text)
+
+
 # Bot setup
 bot = telebot.TeleBot(bot_secrets.TOKEN)
 
@@ -79,8 +80,7 @@ def start(message):
     bot.send_message(
         user_id,
         "Welcome to Saeed, Raz and Yara's TravelBot! 🌍\nLet’s plan your next trip.\nChoose a travel area:",
-        reply_markup=markup,)
-
+        reply_markup=markup, )
 
 
 # ----------- area selection -----------
@@ -123,7 +123,7 @@ def suggest_trip(message):
         f"{trip['image_url']}\n"
         f"{trip['place']}"
     )
-#test
+    # test
     bot.send_message(user_id, message_text, reply_markup=markup)
 
 
@@ -154,19 +154,21 @@ def handle_feedback(message):
         bot.send_message(user_id, f"✅ {trip['title']} saved to your trip history!")
         try:
             gemini_text = ask_gemini_about_trip(trip["title"], trip["place"])
-            cleaned_answer = escape_markdown(gemini_text)
-            cleaned_title = escape_markdown(trip["title"])
-            bot.send_message(user_id, f"📍 Want to know more about *{cleaned_title}*?\n\n{cleaned_answer}",
-                             parse_mode="Markdown")
         except Exception as e:
             print("Gemini error:", e)
-            bot.send_message(user_id, "❌ Failed to get more info from Gemini.")
+            bot.send_message(user_id, f"❌ Failed to get more info from Gemini.\n{e}")
+            raise
+
+        print(gemini_text)
+        print("---")
+        bot.send_message(user_id, f"📍{escape_markdown(trip["title"])}\n\n{gemini_text}",)
 
 
     else:
         bot.send_message(user_id, "skipped")
         state["index"] += 1
         suggest_trip(message)
+
 
 def save_trip(user_id, trip, area):
     if user_id not in user_state:
