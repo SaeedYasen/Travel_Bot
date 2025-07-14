@@ -48,7 +48,7 @@ user_state = {}  # user_id -> { "area": ..., "index": ..., "history": [...] }
 # Load trip data once
 with open("db.json", "r", encoding="utf-8") as f:
     all_trips = json.load(f)
-
+#test
 area_map = {
     "North": "North",
     "Centre": "Centre",
