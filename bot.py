@@ -6,6 +6,32 @@ from datetime import datetime
 import bot_secrets  # חייב להכיל את TOKEN שלך
 import re
 
+from promptic import llm
+from pydantic import BaseModel
+from bot_secrets import GEMINI_API_KEY
+
+
+class GeminiAnswer(BaseModel):
+    answer: str
+
+
+@llm(
+    model="gemini/gemini-1.5-flash",
+    api_key=GEMINI_API_KEY,
+)
+def ask_gemini_about_trip(title: str, place: str) -> str:
+    """
+    Write a short and interesting summary in Hebrew about the following travel site:
+    Title: {title}
+    Location: {place}
+
+    Include a bit of history, what visitors can see there, and why it's worth visiting.
+    Do not exceed 5 sentences.
+    """
+
+
+
+
 def escape_markdown(text):
     """
     בורחת תווים בעייתיים עבור parse_mode="Markdown"
@@ -37,14 +63,24 @@ area_map = {
 @bot.message_handler(commands=["start"])
 def start(message):
     user_id = message.chat.id
+
+    # שמירה על ההיסטוריה הקיימת אם יש כזו
+    previous_history = user_state.get(user_id, {}).get("history", [])
+
+    # עדכון ה־user_state בלי למחוק את ההיסטוריה
+    user_state[user_id] = {
+        "area": None,
+        "index": 0,
+        "history": previous_history
+    }
+
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("North", "Centre", "South", "Nearby")
     bot.send_message(
         user_id,
         "Welcome to Saeed, Raz and Yara's TravelBot! 🌍\nLet’s plan your next trip.\nChoose a travel area:",
-        reply_markup=markup,
-    )
-    user_state[user_id] = {"area": None, "index": 0, "history": []}
+        reply_markup=markup,)
+
 
 
 # ----------- area selection -----------
@@ -87,7 +123,7 @@ def suggest_trip(message):
         f"{trip['image_url']}\n"
         f"{trip['place']}"
     )
-
+#test
     bot.send_message(user_id, message_text, reply_markup=markup)
 
 
@@ -116,12 +152,33 @@ def handle_feedback(message):
         }
         state["history"].append(saved)
         bot.send_message(user_id, f"✅ {trip['title']} saved to your trip history!")
-        bot.send_message(user_id, f" gemini text")
+        try:
+            gemini_text = ask_gemini_about_trip(trip["title"], trip["place"])
+            cleaned_answer = escape_markdown(gemini_text)
+            cleaned_title = escape_markdown(trip["title"])
+            bot.send_message(user_id, f"📍 Want to know more about *{cleaned_title}*?\n\n{cleaned_answer}",
+                             parse_mode="Markdown")
+        except Exception as e:
+            print("Gemini error:", e)
+            bot.send_message(user_id, "❌ Failed to get more info from Gemini.")
+
+
     else:
         bot.send_message(user_id, "skipped")
         state["index"] += 1
         suggest_trip(message)
 
+def save_trip(user_id, trip, area):
+    if user_id not in user_state:
+        user_state[user_id] = {"history": []}
+    if "history" not in user_state[user_id]:
+        user_state[user_id]["history"] = []
+
+    user_state[user_id]["history"].append({
+        "title": trip["title"],
+        "area": area,
+        "date": datetime.now().strftime("%Y-%m-%d %H:%M")
+    })
 
 
 # ----------- /history -----------
