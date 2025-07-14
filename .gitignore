@@ -1,0 +1,20 @@
+/bot_secrets.py
+
+*.pyc
+*.bak
+*.log
+~*
+
+venv
+.venv
+
+Thumbs.db
+.DS_Store
+
+.idea/
+.vscode/
+.history/
+
+# Generally the lock file should be added, but this will save you pain in the Hackathon:
+uv.lock
+
