@@ -4,7 +4,13 @@ from telebot import types
 import json
 from datetime import datetime
 import bot_secrets  # חייב להכיל את TOKEN שלך
+import re
 
+def escape_markdown(text):
+    """
+    בורחת תווים בעייתיים עבור parse_mode="Markdown"
+    """
+    return re.sub(r'([_*\[\]()~`>#+\-=|{}.!])', r'\\\1', text)
 # Bot setup
 bot = telebot.TeleBot(bot_secrets.TOKEN)
 
@@ -74,15 +80,15 @@ def suggest_trip(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     markup.add("👍", "👎")
 
-    message_text = f"""Here are some trip options in the {state["area"]}:
+    message_text = (
+        f"Here are some trip options in the {state['area']}:\n\n"
+        f"{trip['title']}\n"
+        f"{trip['description']}\n"
+        f"{trip['image_url']}\n"
+        f"{trip['place']}"
+    )
 
-{trip['title']}
-{trip['description']}
-{trip['image_url']}
-{trip['place']}
-
-"""
-    bot.send_message(user_id, message_text, parse_mode="Markdown", reply_markup=markup)
+    bot.send_message(user_id, message_text, reply_markup=markup)
 
 
 # ----------- feedback on suggestion (👍 / 👎) -----------
@@ -115,6 +121,7 @@ def handle_feedback(message):
         bot.send_message(user_id, "skipped")
         state["index"] += 1
         suggest_trip(message)
+
 
 
 # ----------- /history -----------
