@@ -3,12 +3,11 @@ import telebot
 from telebot import types
 import json
 from datetime import datetime
-import bot_secrets  # חייב להכיל את TOKEN שלך
 import re
 
 from promptic import llm
 from pydantic import BaseModel
-from bot_secrets import GEMINI_API_KEY
+from bot_secrets import GEMINI_API_KEY,TOKEN
 
 
 class GeminiAnswer(BaseModel):
@@ -38,7 +37,7 @@ def escape_markdown(text):
     """
     return re.sub(r'([_*\[\]()~`>#+\-=|{}.!])', r'\\\1', text)
 # Bot setup
-bot = telebot.TeleBot(bot_secrets.TOKEN)
+bot = telebot.TeleBot(TOKEN)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -81,7 +80,6 @@ def start(message):
         "Welcome to Saeed, Raz and Yara's TravelBot! 🌍\nLet’s plan your next trip.\nChoose a travel area:",
         reply_markup=markup,
     )
-    user_state[user_id] = {"area": None, "index": 0, "history": []}
 
 
 # ----------- area selection -----------
