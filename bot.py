@@ -110,6 +110,7 @@ def handle_feedback(message):
         }
         state["history"].append(saved)
         bot.send_message(user_id, f"✅ {trip['title']} saved to your trip history!")
+        bot.send_message(user_id, f" gemini text")
     else:
         bot.send_message(user_id, "skipped")
         state["index"] += 1

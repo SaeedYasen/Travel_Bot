@@ -1,0 +1,258 @@
+[
+  {
+    "id": 1,
+    "title": "הר ארבל – תצפית על הכנרת",
+    "place": "מצפה ארבל",
+    "area": "North",
+    "description": "עלייה לפסגת מצוק ארבל עם נוף מרהיב על הכנרת והעמקים.",
+    "image_url": "https://thumbs.dreamstime.com/z/hiking-jesus-trail-beautiful-view-mt-arbel-countryside-galilee-sea-israel-135563505.jpg"
+  },
+  {
+    "id": 2,
+    "title": "נחל עמוד",
+    "place": "נחל עמוד, הגליל",
+    "area": "North",
+    "description": "הליכה לאורך נחל קסום עם בריכות טבעיות וצמחייה שופעת.",
+    "image_url": "https://www.touristisrael.com/images/nahal-amud.jpg"
+  },
+  {
+    "id": 3,
+    "title": "עכו העתיקה",
+    "place": "עכו",
+    "area": "North",
+    "description": "סיור בין סמטאות ונמל היסטורי בעיר הצלבנית.",
+    "image_url": "https://images.unsplash.com/photo-1595546947576-3c876ef6ccf8"
+  },
+  {
+    "id": 4,
+    "title": "הר מירון",
+    "place": "הר מירון",
+    "area": "North",
+    "description": "מסלול טבע ביערות ירוקים ונוף גלילי משגע.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 5,
+    "title": "שמורת הבניאס",
+    "place": "גולן",
+    "area": "North",
+    "description": "שבילי מים, מפלים ומערת פאן בשמורת טבע מרהיבה.",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/18/Banias_waterfall.JPG"
+  },
+  {
+    "id": 6,
+    "title": "גני יהושע – פארק הירקון",
+    "place": "תל אביב",
+    "area": "Centre",
+    "description": "פארק עצום בלב העיר – מושלם לריצה, פיקניק או סירה.",
+    "image_url": "https://images.unsplash.com/photo-1504805572947-34fad45aed93"
+  },
+  {
+    "id": 7,
+    "title": "שוק הכרמל",
+    "place": "תל אביב",
+    "area": "Centre",
+    "description": "השוק הכי צבעוני בארץ – אוכל, תרבות וקניות.",
+    "image_url": "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70"
+  },
+  {
+    "id": 8,
+    "title": "יפו העתיקה",
+    "place": "יפו",
+    "area": "Centre",
+    "description": "סמטאות אבן, גלריות, נמל ושקיעות בלתי נשכחות.",
+    "image_url": "https://images.unsplash.com/photo-1563410267992-4ba5e9ccbc8c"
+  },
+  {
+    "id": 9,
+    "title": "חוף גורדון",
+    "place": "תל אביב",
+    "area": "Centre",
+    "description": "חוף פופולרי עם טיילת, בריכות ים ובריזה נעימה.",
+    "image_url": "https://media.timeout.com/images/105239594/630/472/image.jpg"
+  },
+  {
+    "id": 10,
+    "title": "העיר הלבנה",
+    "place": "תל אביב",
+    "area": "Centre",
+    "description": "סיור אדריכלי בבניינים בסגנון הבאוהאוס בלב תל אביב.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 11,
+    "title": "נווה צדק",
+    "place": "תל אביב",
+    "area": "Centre",
+    "description": "שכונת אמנים קסומה עם גלריות, מסעדות ואווירה ייחודית.",
+    "image_url": "https://images.unsplash.com/photo-1582572428256-4b6bb6c3e542"
+  },
+  {
+    "id": 12,
+    "title": "פארק תמנע",
+    "place": "ערבה",
+    "area": "South",
+    "description": "נופים מדבריים, עמודי שלמה וטיולים גיאולוגיים מרהיבים.",
+    "image_url": "https://images.unsplash.com/photo-1583151369423-88109247f152"
+  },
+  {
+    "id": 13,
+    "title": "חוות הדולפינים",
+    "place": "אילת",
+    "area": "South",
+    "description": "חוויה ימית ייחודית עם שחייה לצד דולפינים.",
+    "image_url": "https://images.unsplash.com/photo-1560807707-8cc77767d783"
+  },
+  {
+    "id": 14,
+    "title": "שמורת האלמוגים",
+    "place": "אילת",
+    "area": "South",
+    "description": "שנורקלינג בין אלמוגים מדהימים ומים צלולים.",
+    "image_url": "https://images.unsplash.com/photo-1581252906630-51bfefd02445"
+  },
+  {
+    "id": 15,
+    "title": "מכתש רמון",
+    "place": "מצפה רמון",
+    "area": "South",
+    "description": "טבע בראשיתי, מסלולים ותצפיות מעל מכתש גיאולוגי.",
+    "image_url": "https://images.unsplash.com/photo-1517841905240-472988babdf9"
+  },
+  {
+    "id": 16,
+    "title": "עין עבדת",
+    "place": "מדבר צין",
+    "area": "South",
+    "description": "נחל צר עם מים, קניונים ונשרים מדבריים.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 17,
+    "title": "עין גדי",
+    "place": "ים המלח",
+    "area": "South",
+    "description": "שמורת טבע עם מפלים, צבאים ובריכות מים מתוקים.",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Ein_Gedi_Nature_Reserve_13.jpg"
+  },
+  {
+    "id": 18,
+    "title": "עין בוקק",
+    "place": "ים המלח",
+    "area": "South",
+    "description": "מסלול נחל קצר עם בריכות, מתאים לקיץ.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 19,
+    "title": "נחל פרת",
+    "place": "מדבר יהודה",
+    "area": "South",
+    "description": "נחל מרהיב עם מים זורמים כל השנה.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 20,
+    "title": "שביל ישראל – מקטע הרי ירושלים",
+    "place": "הרי יהודה",
+    "area": "Centre",
+    "description": "הליכה לאורך הרים, חורש טבעי ותצפיות.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 21,
+    "title": "נחל השופט",
+    "place": "רמות מנשה",
+    "area": "North",
+    "description": "נחל קליל להליכה בין עצים ונחלים רדודים.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 22,
+    "title": "עין חרדלית",
+    "place": "גליל מערבי",
+    "area": "North",
+    "description": "מסלול רטוב למשפחות, בין מים זורמים לעצים.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 23,
+    "title": "יער בן שמן",
+    "place": "מרכז",
+    "area": "Centre",
+    "description": "מסלולי הליכה, רכיבת שטח ופינות חמד בתוך חורש טבעי.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 24,
+    "title": "עין חנדק",
+    "place": "הרי ירושלים",
+    "area": "Centre",
+    "description": "מנהרות מים צוננים ומנהרה חשוכה להליכה חווייתית.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 25,
+    "title": "גבעת התיתורה",
+    "place": "מודיעין",
+    "area": "Centre",
+    "description": "תצפיות נוף, פריחה עונתית ועתיקות.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 26,
+    "title": "שביל הפסגה – הר מירון",
+    "place": "גליל עליון",
+    "area": "North",
+    "description": "שביל מעגלי ביער סבוך עם נופים לחרמון.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 27,
+    "title": "בריכת המשושים",
+    "place": "גולן",
+    "area": "North",
+    "description": "בריכה טבעית עם מבנה סלעי משושה ייחודי.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 28,
+    "title": "יער אודם",
+    "place": "צפון רמת הגולן",
+    "area": "North",
+    "description": "יער ירוק עד עם שבילים מוצלים ונקודות תצפית.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 29,
+    "title": "חורשת טל",
+    "place": "עמק החולה",
+    "area": "North",
+    "description": "מקום מושלם לקמפינג עם מים זורמים ומדשאות.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 30,
+    "title": "גן לאומי בית שאן",
+    "place": "בית שאן",
+    "area": "North",
+    "description": "עתיקות רומיות מרשימות וטיול באווירה היסטורית.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 31,
+    "title": "חוף פלמחים",
+    "place": "פלמחים",
+    "area": "Centre",
+    "description": "שמורת טבע ימית עם חוף בתולי וצוקים.",
+    "image_url": "https://example.com/placeholder.jpg"
+  },
+  {
+    "id": 32,
+    "title": "שמורת נחל תנינים",
+    "place": "קיסריה",
+    "area": "Centre",
+    "description": "שילוב של טבע, נחל זורם ושרידים היסטוריים.",
+    "image_url": "https://example.com/placeholder.jpg"
+  }
+]
