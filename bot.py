@@ -29,15 +29,25 @@ area_map = {
 
 # ----------- /start -----------
 @bot.message_handler(commands=["start"])
+
+
 def start(message):
     user_id = message.chat.id
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("North", "Centre", "South", "Nearby")
+
+    markup = types.InlineKeyboardMarkup(row_width=2)
+    markup.add(
+        types.InlineKeyboardButton("North", callback_data="area_North"),
+        types.InlineKeyboardButton("Centre", callback_data="area_Centre"),
+        types.InlineKeyboardButton("South", callback_data="area_South"),
+        types.InlineKeyboardButton("Nearby", callback_data="area_Nearby")
+    )
+
     bot.send_message(
         user_id,
         "Welcome to Saeed, Raz and Yara's TravelBot! 🌍\nLet’s plan your next trip.\nChoose a travel area:",
         reply_markup=markup,
     )
+
     user_state[user_id] = {"area": None, "index": 0, "history": []}
 
 
