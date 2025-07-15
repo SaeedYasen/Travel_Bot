@@ -5,6 +5,7 @@ requires-python = "~=3.13.0"
 dependencies = [
     "promptic>=5.5.1",
     "pytelegrambotapi>=4.26.0",
+    "requests>=2.32.4",
 ]
 
 [dependency-groups]
