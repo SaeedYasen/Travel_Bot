@@ -6,6 +6,7 @@ dependencies = [
     "promptic>=5.5.1",
     "pytelegrambotapi>=4.26.0",
     "requests>=2.32.4",
+    "state>=0.1.1.dev0",
 ]
 
 [dependency-groups]
