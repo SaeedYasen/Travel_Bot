@@ -7,7 +7,10 @@ import json
 from datetime import datetime
 import bot_secrets  # חייב להכיל את TOKEN שלך
 import re
+from telebot.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
+from datetime import datetime
 
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from promptic import llm
 from pydantic import BaseModel
 from bot_secrets import GEMINI_API_KEY
@@ -73,50 +76,114 @@ with open("db.json", "r", encoding="utf-8") as f:
 area_map = {
     "North": "North",
     "Centre": "Centre",
-    "Center": "Centre",
     "South": "South",
-    "Nearby": "Centre"
+
 }
 
 
 # ----------- /start -----------
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
+
+# ----------- feedback on suggestion (👍 / 👎) -----------
+@bot.callback_query_handler(func=lambda call: call.data in ["like", "dislike"])
+def handle_feedback(call):
+    user_id = call.message.chat.id
+    message = call.message
+    state = user_state.get(user_id)
+    if not state or not state["area"]:
+        bot.send_message(user_id, "Please start by selecting an area using /start.")
+        return
+
+    area_trips = [t for t in all_trips if t["area"] == state["area"]]
+    index = state["index"]
+    if index >= len(area_trips):
+        bot.send_message(user_id, "No more suggestions available.")
+        return
+
+    trip = area_trips[index]
+    temp = state.get("last_temp", "N/A")
+
+    if call.data == "like":
+        saved = {
+            "title": trip["title"],
+            "area": trip["area"],
+            "date": datetime.now().strftime("%B %d")
+        }
+        state["history"].append(saved)
+        bot.send_message(user_id, f"✅ {trip['title']} saved to your trip history!")
+
+        try:
+            gemini_text = ask_gemini_about_trip(trip["title"], trip["place"], temp)
+        except Exception as e:
+            print("Gemini error:", e)
+            bot.send_message(user_id, f"❌ Failed to get more info from Gemini.\n{e}")
+            return
+
+        print(gemini_text)
+        print("---")
+
+        # יצירת Inline כפתור
+        markup = InlineKeyboardMarkup()
+        markup.add(InlineKeyboardButton("Show More Adventures", callback_data="show_more"))
+
+        bot.send_message(user_id, f"📍{trip['title']}\n\n{gemini_text}", reply_markup=markup)
+    else:
+        bot.send_message(user_id, "Skipped.")
+        state["index"] += 1
+        suggest_trip(call.message)
+    bot.answer_callback_query(call.id)
+
+
+# ----------- when clicking "Show More Adventures" Inline button -----------
+@bot.callback_query_handler(func=lambda call: call.data == "show_more")
+def handle_show_more_callback(call):
+    user_id = call.message.chat.id
+    state = user_state.get(user_id)
+    if not state:
+        bot.send_message(user_id, "Please start with /start")
+        return
+
+    state["index"] += 1
+    bot.answer_callback_query(call.id)
+    suggest_trip(call.message)
+
+
+# ----------- inline area selection -----------
 @bot.message_handler(commands=["start"])
 def start(message):
     user_id = message.chat.id
-
-    # שמירה על ההיסטוריה הקיימת אם יש כזו
     previous_history = user_state.get(user_id, {}).get("history", [])
-
-    # עדכון ה־user_state בלי למחוק את ההיסטוריה
     user_state[user_id] = {
         "area": None,
         "index": 0,
         "history": previous_history
     }
 
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("North", "Centre", "South", "Nearby")
+    markup = InlineKeyboardMarkup()
+    markup.add(
+        InlineKeyboardButton("North", callback_data="area_North"),
+        InlineKeyboardButton("Centre", callback_data="area_Centre"),
+        InlineKeyboardButton("South", callback_data="area_South")
+    )
     bot.send_message(
         user_id,
         "Welcome to Saeed, Raz and Yara's TravelBot! 🌍\nLet’s plan your next trip.\nChoose a travel area:",
-        reply_markup=markup, )
+        reply_markup=markup
+    )
 
 
-# ----------- area selection -----------
-@bot.message_handler(func=lambda m: m.text in area_map)
-def select_area(message):
-    user_id = message.chat.id
-    selected_area = area_map[message.text]
+@bot.callback_query_handler(func=lambda call: call.data.startswith("area_"))
+def handle_area_selection(call):
+    user_id = call.message.chat.id
+    selected_area = call.data.split("_")[1]
     user_state[user_id]["area"] = selected_area
     user_state[user_id]["index"] = 0
+    bot.answer_callback_query(call.id)
     bot.send_message(user_id, f"Great! You chose the {selected_area} 🌄\nLooking for a great trail for you...")
-
-    # מייד שולח המלצה
-    suggest_trip(message)
+    suggest_trip(call.message)
 
 
-# ----------- /suggestions -----------
-@bot.message_handler(commands=["suggestions"])
+# ----------- send trip suggestion with inline like/dislike -----------
 def suggest_trip(message):
     user_id = message.chat.id
     state = user_state.get(user_id)
@@ -132,21 +199,17 @@ def suggest_trip(message):
         return
 
     trip = area_trips[index]
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    markup.add("👍", "👎")
     try:
         temp = get_temp(trip.get('place', 'israel'), api_wether=API_WHETHER)
-        state["last_temp"] = temp  # שמירה לשימוש עתידי
+        state["last_temp"] = temp
     except Exception as e:
         temp = f"Temperature info not available ({e})"
 
-    # שליחת התמונה בנפרד
     bot.send_photo(
         chat_id=user_id,
         photo=trip.get('image_url', '')
     )
 
-    # יצירת ההודעה ללא הקישור
     message_text = (
         f"Here are some trip options in the {state.get('area', 'unknown area')}:\n\n"
         f"{trip.get('title', 'No title')}\n"
@@ -155,52 +218,28 @@ def suggest_trip(message):
         f"{trip.get('place', '')}"
     )
 
-    # שליחת ההודעה כרגיל
+    markup = InlineKeyboardMarkup()
+    markup.add(
+        InlineKeyboardButton("👍", callback_data="like"),
+        InlineKeyboardButton("👎", callback_data="dislike")
+    )
+
     bot.send_message(user_id, message_text, reply_markup=markup)
 
 
-# ----------- feedback on suggestion (👍 / 👎) -----------
-@bot.message_handler(func=lambda m: m.text in ["👍", "👎"])
-def handle_feedback(message):
+
+# ----------- area selection -----------
+@bot.message_handler(func=lambda m: m.text in area_map)
+def select_area(message):
     user_id = message.chat.id
-    state = user_state.get(user_id)
-    if not state or not state["area"]:
-        bot.send_message(user_id, "Please start by selecting an area using /start.")
-        return
+    selected_area = area_map[message.text]
+    user_state[user_id]["area"] = selected_area
+    user_state[user_id]["index"] = 0
+    bot.send_message(user_id, f"Great! You chose the {selected_area} 🌄\nLooking for a great trail for you...")
+    suggest_trip(message)
 
-    area_trips = [t for t in all_trips if t["area"] == state["area"]]
-    index = state["index"]
-    if index >= len(area_trips):
-        bot.send_message(user_id, "No more suggestions available.")
-        return
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-    trip = area_trips[index]
-    temp = state.get("last_temp", "N/A")
-
-    if message.text == "👍":
-        saved = {
-            "title": trip["title"],
-            "area": trip["area"],
-            "date": datetime.now().strftime("%B %d")
-        }
-        state["history"].append(saved)
-        bot.send_message(user_id, f"✅ {trip['title']} saved to your trip history!")
-        try:
-            gemini_text = ask_gemini_about_trip(trip["title"], trip["place"],temp)
-        except Exception as e:
-            print("Gemini error:", e)
-            bot.send_message(user_id, f"❌ Failed to get more info from Gemini.\n{e}")
-            raise
-
-        print(gemini_text)
-        print("---")
-        bot.send_message(user_id, f"📍{trip["title"]}\n\n{gemini_text}",)
-
-
-    else:
-        bot.send_message(user_id, "skipped")
-        state["index"] += 1
-        suggest_trip(message)
 
 
 def save_trip(user_id, trip, area):
