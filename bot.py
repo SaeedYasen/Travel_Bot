@@ -81,8 +81,6 @@ area_map = {
 }
 
 
-# ----------- /start -----------
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # ----------- feedback on suggestion (👍 / 👎) -----------
 @bot.callback_query_handler(func=lambda call: call.data in ["like", "dislike"])
@@ -102,15 +100,25 @@ def handle_feedback(call):
 
     trip = area_trips[index]
     temp = state.get("last_temp", "N/A")
-
     if call.data == "like":
         saved = {
             "title": trip["title"],
             "area": trip["area"],
             "date": datetime.now().strftime("%B %d")
         }
-        state["history"].append(saved)
-        bot.send_message(user_id, f"✅ {trip['title']} saved to your trip history!")
+        saved_json = json.dumps(saved, sort_keys=True)
+
+        if "history" not in state:
+            state["history"] = []
+        if "history_set" not in state:
+            state["history_set"] = set()
+
+        if saved_json not in state["history_set"]:
+            state["history_set"].add(saved_json)
+            state["history"].append(saved)
+            bot.send_message(user_id, f"✅ {trip['title']} saved to your trip history!")
+        else:
+            bot.send_message(user_id, f"ℹ️ {trip['title']} is already in your trip history.")
 
         try:
             gemini_text = ask_gemini_about_trip(trip["title"], trip["place"], temp)
@@ -149,10 +157,15 @@ def handle_show_more_callback(call):
 def start(message):
     user_id = message.chat.id
     previous_history = user_state.get(user_id, {}).get("history", [])
+    previous_set = set(
+        json.dumps(item, sort_keys=True) for item in previous_history
+    )
+
     user_state[user_id] = {
         "area": None,
         "index": 0,
-        "history": previous_history
+        "history": previous_history,
+        "history_set": previous_set
     }
 
     markup = InlineKeyboardMarkup()
@@ -166,6 +179,7 @@ def start(message):
         "Welcome to Saeed, Raz and Yara's TravelBot! 🌍\nLet’s plan your next trip.\nChoose a travel area:",
         reply_markup=markup
     )
+
 
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith("area_"))
@@ -240,23 +254,29 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 def save_trip(user_id, trip, area):
     if user_id not in user_state:
-        user_state[user_id] = {"history": []}
-    if "history" not in user_state[user_id]:
-        user_state[user_id]["history"] = []
+        user_state[user_id] = {"history": [], "history_set": set()}
 
-    user_state[user_id]["history"].append({
+    saved = {
         "title": trip["title"],
         "area": area,
         "date": datetime.now().strftime("%Y-%m-%d %H:%M")
-    })
+    }
+    saved_json = json.dumps(saved, sort_keys=True)
+
+    if saved_json not in user_state[user_id]["history_set"]:
+        user_state[user_id]["history"].append(saved)
+        user_state[user_id]["history_set"].add(saved_json)
+
 
 
 # ----------- /history -----------
+
 @bot.message_handler(commands=["history"])
 def show_history(message):
     user_id = message.chat.id
     state = user_state.get(user_id)
-    if not state or not state["history"]:
+
+    if not state or not state.get("history"):
         bot.send_message(user_id, "📭 No saved trips yet.")
         return
 
@@ -264,6 +284,7 @@ def show_history(message):
     response = "🗺️ Saved Trips:\n"
     for i, trip in enumerate(history, 1):
         response += f"{i}. {trip['title']} – {trip['area']} – saved on {trip['date']}\n"
+
     bot.send_message(user_id, response)
 
 
@@ -281,6 +302,7 @@ def confirm_clear(message):
     user_id = message.chat.id
     if user_id in user_state:
         user_state[user_id]["history"] = []
+        user_state[user_id]["history_set"] = set()
     bot.send_message(user_id, "✅ All saved trips have been cleared.")
 
 
