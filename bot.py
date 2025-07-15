@@ -116,19 +116,15 @@ def handle_feedback(call):
             gemini_text = ask_gemini_about_trip(trip["title"], trip["place"], temp)
         except Exception as e:
             print("Gemini error:", e)
-            bot.send_message(user_id, f"❌ Failed to get more info from Gemini.\n{e}")
+            bot.send_message(user_id, f"❌ Failed to get more info from Gemini.\n")
             return
 
-        print(gemini_text)
-        print("---")
 
-        # יצירת Inline כפתור
         markup = InlineKeyboardMarkup()
         markup.add(InlineKeyboardButton("Show More Adventures", callback_data="show_more"))
 
         bot.send_message(user_id, f"📍{trip['title']}\n\n{gemini_text}", reply_markup=markup)
     else:
-        bot.send_message(user_id, "Skipped.")
         state["index"] += 1
         suggest_trip(call.message)
     bot.answer_callback_query(call.id)
