@@ -1,16 +1,18 @@
 import logging
+
+import requests
 import telebot
 from telebot import types
 import json
 from datetime import datetime
-import bot_secrets 
+import bot_secrets  # חייב להכיל את TOKEN שלך
 import re
 
 from promptic import llm
 from pydantic import BaseModel
 from bot_secrets import GEMINI_API_KEY
 
-
+API_WHETHER= "447b0fd0d5e02dd8fac6a15b1a682184"
 class GeminiAnswer(BaseModel):
     answer: str
 
@@ -19,17 +21,34 @@ class GeminiAnswer(BaseModel):
     model="gemini/gemini-1.5-flash",
     api_key=GEMINI_API_KEY,
 )
-def ask_gemini_about_trip(title: str, place: str) -> str:
+def ask_gemini_about_trip(title: str, place: str,temp:int) -> str:
     """
-    Write a short and interesting summary in Hebrew about the following travel site:
-    Title: {title}
-    Location: {place}
+    כתוב תקציר קצר ומעניין בעברית על אתר הטיול הבא:
 
-    Include a bit of history, what visitors can see there, and why it's worth visiting.
-    Do not exceed 5 sentences. write it in bullet points and add emojis.
-    return me markdown text for telegram
+    כותרת: {title}
+    מיקום: {place}
+    טמפרטורה: {temp}
+
+    השתמש במידע הזה וכתוב תיאור ב-5 שורות לכל היותר, בפורמט של בולטים עם אימוג'ים.
+    כלול בקצרה:
+    - קצת היסטוריה על המקום
+    - מה אפשר לראות ולעשות שם (רק הדברים הכי חשובים)
+    - למה כדאי לבקר בו
+    - שעות פתיחה אם יש
+    - אל תשכח להחזיר את הפלט בפורמט טקסט שמתאים לטלגרם.
     """
 
+
+def get_temp(city, api_wether):
+    url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_wether}&units=metric'
+    r = requests.get(url)
+    data = r.json()
+    if r.status_code == 200 and 'main' in data and 'temp' in data['main']:
+        return f"{data['main']['temp']}°C"
+    elif 'message' in data:
+        return f"Weather API error: {data['message']}"
+    else:
+        return "Temperature info not available"
 
 def escape_markdown(text):
     """
@@ -115,15 +134,28 @@ def suggest_trip(message):
     trip = area_trips[index]
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     markup.add("👍", "👎")
+    try:
+        temp = get_temp(trip.get('place', 'israel'), api_wether=API_WHETHER)
+        state["last_temp"] = temp  # שמירה לשימוש עתידי
+    except Exception as e:
+        temp = f"Temperature info not available ({e})"
 
-    message_text = (
-        f"Here are some trip options in the {state['area']}:\n\n"
-        f"{trip['title']}\n"
-        f"{trip['description']}\n"
-        f"{trip['image_url']}\n"
-        f"{trip['place']}"
+    # שליחת התמונה בנפרד
+    bot.send_photo(
+        chat_id=user_id,
+        photo=trip.get('image_url', '')
     )
-    # test
+
+    # יצירת ההודעה ללא הקישור
+    message_text = (
+        f"Here are some trip options in the {state.get('area', 'unknown area')}:\n\n"
+        f"{trip.get('title', 'No title')}\n"
+        f"{temp}\n"
+        f"{trip.get('description', '')}\n"
+        f"{trip.get('place', '')}"
+    )
+
+    # שליחת ההודעה כרגיל
     bot.send_message(user_id, message_text, reply_markup=markup)
 
 
@@ -143,6 +175,7 @@ def handle_feedback(message):
         return
 
     trip = area_trips[index]
+    temp = state.get("last_temp", "N/A")
 
     if message.text == "👍":
         saved = {
@@ -153,9 +186,7 @@ def handle_feedback(message):
         state["history"].append(saved)
         bot.send_message(user_id, f"✅ {trip['title']} saved to your trip history!")
         try:
-            thinking_msg = bot.send_message(user_id, "🧭Gathering details about the place… please wait a moment.")
-            gemini_text = ask_gemini_about_trip(trip["title"], trip["place"])
-
+            gemini_text = ask_gemini_about_trip(trip["title"], trip["place"],temp)
         except Exception as e:
             print("Gemini error:", e)
             bot.send_message(user_id, f"❌ Failed to get more info from Gemini.\n{e}")
@@ -163,7 +194,7 @@ def handle_feedback(message):
 
         print(gemini_text)
         print("---")
-        bot.send_message(user_id, f"📍{escape_markdown(trip["title"])}\n\n{gemini_text}",)
+        bot.send_message(user_id, f"📍{trip["title"]}\n\n{gemini_text}",)
 
 
     else:

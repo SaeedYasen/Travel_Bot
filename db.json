@@ -1,19 +1,20 @@
+
 [
   {
     "id": 1,
     "title": "הר ארבל – תצפית על הכנרת",
-    "place": "מצפה ארבל",
+    "place": "רביד",
     "area": "North",
     "description": "עלייה לפסגת מצוק ארבל עם נוף מרהיב על הכנרת והעמקים.",
-    "image_url": "https://thumbs.dreamstime.com/z/hiking-jesus-trail-beautiful-view-mt-arbel-countryside-galilee-sea-israel-135563505.jpg"
+    "image_url": "https://www.maslulim-israel.co.il/wp-content/uploads/2023/03/mizpearbel1000.jpg"
   },
   {
     "id": 2,
     "title": "נחל עמוד",
-    "place": "נחל עמוד, הגליל",
+    "place": "כפר שמאי",
     "area": "North",
     "description": "הליכה לאורך נחל קסום עם בריכות טבעיות וצמחייה שופעת.",
-    "image_url": "https://www.touristisrael.com/images/nahal-amud.jpg"
+    "image_url": "https://familytrips.co.il/wp-content/uploads/2020/05/20200509_135041.jpg"
   },
   {
     "id": 3,
@@ -21,23 +22,23 @@
     "place": "עכו",
     "area": "North",
     "description": "סיור בין סמטאות ונמל היסטורי בעיר הצלבנית.",
-    "image_url": "https://images.unsplash.com/photo-1595546947576-3c876ef6ccf8"
+    "image_url": "https://www.masa.co.il/wp-content/uploads/2017/02/akko.jpg"
   },
   {
     "id": 4,
     "title": "הר מירון",
-    "place": "הר מירון",
+    "place": "מירון",
     "area": "North",
     "description": "מסלול טבע ביערות ירוקים ונוף גלילי משגע.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://ynet-pic1.yit.co.il/cdn-cgi/image/f=auto,w=740,q=75/picserver5/crop_images/2023/09/24/HyFWZf0Jp/HyFWZf0Jp_0_338_3000_1688_0_x-large.jpg"
   },
   {
     "id": 5,
     "title": "שמורת הבניאס",
-    "place": "גולן",
+    "place": "שניר",
     "area": "North",
     "description": "שבילי מים, מפלים ומערת פאן בשמורת טבע מרהיבה.",
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/18/Banias_waterfall.JPG"
+    "image_url": "https://baliletayel.co.il/wp-content/uploads/elementor/thumbs/-%D7%94%D7%AA%D7%9C%D7%95%D7%99-%D7%91%D7%91%D7%A0%D7%99%D7%90%D7%A1_800x600-r5qo495pck7zyexemwoicayd2p1ds7v33xhkjn671c.jpg"
   },
   {
     "id": 6,
@@ -45,7 +46,7 @@
     "place": "תל אביב",
     "area": "Centre",
     "description": "פארק עצום בלב העיר – מושלם לריצה, פיקניק או סירה.",
-    "image_url": "https://images.unsplash.com/photo-1504805572947-34fad45aed93"
+    "image_url": "https://www.tiuli.com/image/6bc80e2a4d72540f4ab29469e5fbf10c.jpg?&width=1080&height=0"
   },
   {
     "id": 7,
@@ -53,7 +54,7 @@
     "place": "תל אביב",
     "area": "Centre",
     "description": "השוק הכי צבעוני בארץ – אוכל, תרבות וקניות.",
-    "image_url": "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70"
+    "image_url": "https://visit-tlv.co.il/wp-content/uploads/2021/07/%D7%9B%D7%A8%D7%9E%D7%9C-%D7%92%D7%99%D7%90-%D7%99%D7%97%D7%90%D7%9C%D7%99.jpg"
   },
   {
     "id": 8,
@@ -61,7 +62,7 @@
     "place": "יפו",
     "area": "Centre",
     "description": "סמטאות אבן, גלריות, נמל ושקיעות בלתי נשכחות.",
-    "image_url": "https://images.unsplash.com/photo-1563410267992-4ba5e9ccbc8c"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/OLD_JAFFA_PORT.jpg/1280px-OLD_JAFFA_PORT.jpg"
   },
   {
     "id": 9,
@@ -69,7 +70,7 @@
     "place": "תל אביב",
     "area": "Centre",
     "description": "חוף פופולרי עם טיילת, בריכות ים ובריזה נעימה.",
-    "image_url": "https://media.timeout.com/images/105239594/630/472/image.jpg"
+    "image_url": "https://navicup.com//upload/map-files/images/4119/image_144.png"
   },
   {
     "id": 10,
@@ -77,7 +78,7 @@
     "place": "תל אביב",
     "area": "Centre",
     "description": "סיור אדריכלי בבניינים בסגנון הבאוהאוס בלב תל אביב.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://www.carlton.co.il/wp-content/uploads/2021/08/15276615505b0e43ee49697600519.jpg"
   },
   {
     "id": 11,
@@ -85,15 +86,15 @@
     "place": "תל אביב",
     "area": "Centre",
     "description": "שכונת אמנים קסומה עם גלריות, מסעדות ואווירה ייחודית.",
-    "image_url": "https://images.unsplash.com/photo-1582572428256-4b6bb6c3e542"
+    "image_url": "https://spanevetzedek.co.il/wp-content/uploads/2019/06/neve-tzedek-600x600.jpg"
   },
   {
     "id": 12,
     "title": "פארק תמנע",
-    "place": "ערבה",
+    "place": "עראבה",
     "area": "South",
     "description": "נופים מדבריים, עמודי שלמה וטיולים גיאולוגיים מרהיבים.",
-    "image_url": "https://images.unsplash.com/photo-1583151369423-88109247f152"
+    "image_url": "https://www.israelhayom.co.il/wp-content/uploads/2023/09/13/13/%D7%A4%D7%90%D7%A8%D7%A7-%D7%AA%D7%9E%D7%A0%D7%A2_-%D7%A6%D7%99%D7%9C%D7%95%D7%9D-%D7%A8%D7%95%D7%A1%D7%9C%D7%9F-%D7%91%D7%9C%D7%99%D7%A7%D7%95%D7%91-visit2israel.jpg"
   },
   {
     "id": 13,
@@ -101,7 +102,7 @@
     "place": "אילת",
     "area": "South",
     "description": "חוויה ימית ייחודית עם שחייה לצד דולפינים.",
-    "image_url": "https://images.unsplash.com/photo-1560807707-8cc77767d783"
+    "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/97/14/1b/dolphin-explorer.jpg?w=900&h=500&s=1"
   },
   {
     "id": 14,
@@ -109,7 +110,7 @@
     "place": "אילת",
     "area": "South",
     "description": "שנורקלינג בין אלמוגים מדהימים ומים צלולים.",
-    "image_url": "https://images.unsplash.com/photo-1581252906630-51bfefd02445"
+    "image_url": "https://static.parks.org.il/wp-content/uploads/2017/09/chof-aalmogim.jpg"
   },
   {
     "id": 15,
@@ -117,47 +118,47 @@
     "place": "מצפה רמון",
     "area": "South",
     "description": "טבע בראשיתי, מסלולים ותצפיות מעל מכתש גיאולוגי.",
-    "image_url": "https://images.unsplash.com/photo-1517841905240-472988babdf9"
+    "image_url": "https://www.parks.org.il/wp-content/themes/joomi/inc/imgp.php?src=https://static.parks.org.il/wp-content/uploads/2017/10/or-cichavim.jpg&width=1176&co=8&q=60"
   },
   {
     "id": 16,
     "title": "עין עבדת",
-    "place": "מדבר צין",
+    "place": "מדרשת בן גוריון",
     "area": "South",
     "description": "נחל צר עם מים, קניונים ונשרים מדבריים.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://static.parks.org.il/wp-content/uploads/2017/08/DSC_45711.jpg"
   },
   {
     "id": 17,
     "title": "עין גדי",
-    "place": "ים המלח",
+    "place": "עין בוקק",
     "area": "South",
     "description": "שמורת טבע עם מפלים, צבאים ובריכות מים מתוקים.",
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Ein_Gedi_Nature_Reserve_13.jpg"
+    "image_url": "https://img.mako.co.il/2020/09/13/100BEST_thingsInISRAEL_22_i.jpg"
   },
   {
     "id": 18,
     "title": "עין בוקק",
-    "place": "ים המלח",
+    "place": "עין בוקק",
     "area": "South",
     "description": "מסלול נחל קצר עם בריכות, מתאים לקיץ.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://www.locate.co.il/Thumb/800/600/keepRatio/75/uploads/locations/1832470/990418_1593591002.jpg"
   },
   {
     "id": 19,
     "title": "נחל פרת",
-    "place": "מדבר יהודה",
+    "place": "יריחו",
     "area": "South",
     "description": "נחל מרהיב עם מים זורמים כל השנה.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://www.tiuli.com/image/9980fc2bf02e1229ea159ddc06d73fa2.jpg"
   },
   {
     "id": 20,
     "title": "שביל ישראל – מקטע הרי ירושלים",
-    "place": "הרי יהודה",
+    "place": "ירושלים",
     "area": "Centre",
     "description": "הליכה לאורך הרים, חורש טבעי ותצפיות.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://www.ynet.co.il/PicServer2/13062011/3536025/1-wa.jpg"
   },
   {
     "id": 21,
@@ -165,71 +166,71 @@
     "place": "רמות מנשה",
     "area": "North",
     "description": "נחל קליל להליכה בין עצים ונחלים רדודים.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://www.maslulim-israel.co.il/wp-content/uploads/2023/03/%D7%AA%D7%9E%D7%95%D7%A0%D7%94-%D7%A8%D7%90%D7%A9%D7%99%D7%AA-%D7%A0%D7%97%D7%9C-%D7%94%D7%A9%D7%95%D7%A4%D7%98.jpg"
   },
   {
     "id": 22,
     "title": "עין חרדלית",
-    "place": "גליל מערבי",
+    "place": "Shlomi",
     "area": "North",
     "description": "מסלול רטוב למשפחות, בין מים זורמים לעצים.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://anattour.co.il/wp-content/uploads/2023/03/PXL_20230310_130433599-Copy.jpg"
   },
   {
     "id": 23,
     "title": "יער בן שמן",
-    "place": "מרכז",
+    "place": "לוד",
     "area": "Centre",
     "description": "מסלולי הליכה, רכיבת שטח ופינות חמד בתוך חורש טבעי.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://www.thm.org.il/wp-content/uploads/2017/07/%D7%A2%D7%95%D7%AA%D7%A7-%D7%A9%D7%9C-Yotam-Jacobson-4.jpg"
   },
   {
     "id": 24,
     "title": "עין חנדק",
-    "place": "הרי ירושלים",
+    "place": "אבן ספיר",
     "area": "Centre",
     "description": "מנהרות מים צוננים ומנהרה חשוכה להליכה חווייתית.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://baliletayel.co.il/wp-content/uploads/2020/09/DSC07332-scaled.jpg"
   },
   {
     "id": 25,
     "title": "גבעת התיתורה",
-    "place": "מודיעין",
+    "place": "ירושלים",
     "area": "Centre",
     "description": "תצפיות נוף, פריחה עונתית ועתיקות.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://familytrips.co.il/wp-content/uploads/elementor/thumbs/WhatsApp-Image-2024-02-12-at-21.19.45-qjpq5onbsgm36wl0rblrtfba446sx0dw6pohdsmlr4.jpeg"
   },
   {
     "id": 26,
     "title": "שביל הפסגה – הר מירון",
-    "place": "גליל עליון",
+    "place": "צפת",
     "area": "North",
     "description": "שביל מעגלי ביער סבוך עם נופים לחרמון.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://check-in-out.com/wp-content/uploads/2020/11/mount_meron_view.jpg"
   },
   {
     "id": 27,
     "title": "בריכת המשושים",
-    "place": "גולן",
+    "place": "קצרין",
     "area": "North",
     "description": "בריכה טבעית עם מבנה סלעי משושה ייחודי.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://static.parks.org.il/wp-content/uploads/2017/08/DSC_4571.jpg"
   },
   {
     "id": 28,
     "title": "יער אודם",
-    "place": "צפון רמת הגולן",
+    "place": "אודם",
     "area": "North",
     "description": "יער ירוק עד עם שבילים מוצלים ונקודות תצפית.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://www.odem-inn.co.il/wp-content/uploads/2020/02/odem_spring_slider2-min.jpg"
   },
   {
     "id": 29,
     "title": "חורשת טל",
-    "place": "עמק החולה",
+    "place": "צפת",
     "area": "North",
     "description": "מקום מושלם לקמפינג עם מים זורמים ומדשאות.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://static.parks.org.il/wp-content/uploads/2017/09/IMG-20220804-WA0013.jpg"
   },
   {
     "id": 30,
@@ -237,7 +238,7 @@
     "place": "בית שאן",
     "area": "North",
     "description": "עתיקות רומיות מרשימות וטיול באווירה היסטורית.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://static.parks.org.il/wp-content/uploads/2017/08/DSC_3129.jpg"
   },
   {
     "id": 31,
@@ -245,7 +246,7 @@
     "place": "פלמחים",
     "area": "Centre",
     "description": "שמורת טבע ימית עם חוף בתולי וצוקים.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/09/94/f6/bd/palmachim-beach.jpg?w=1200&h=-1&s=1"
   },
   {
     "id": 32,
@@ -253,6 +254,6 @@
     "place": "קיסריה",
     "area": "Centre",
     "description": "שילוב של טבע, נחל זורם ושרידים היסטוריים.",
-    "image_url": "https://example.com/placeholder.jpg"
+    "image_url": "https://static.parks.org.il/wp-content/uploads/2023/11/%D7%A1%D7%99%D7%95%D7%A8-%D7%94%D7%A4%D7%95%D7%92%D7%94-%D7%9C%D7%9E%D7%A4%D7%95%D7%A0%D7%99%D7%9D-%D7%9E%D7%99%D7%93-%D7%9E%D7%A8%D7%93%D7%9B%D7%99-%D7%91%D7%A9%D7%9E%D7%95%D7%A8%D7%AA-%D7%98%D7%91%D7%A2-%D7%A0%D7%97%D7%9C-%D7%AA%D7%A0%D7%99%D7%A0%D7%99%D7%9D.-%D7%A6%D7%99%D7%9C%D7%95%D7%9D-%D7%A8%D7%91%D7%99%D7%91-%D7%A9%D7%A0%D7%99%D7%99%D7%93%D7%A8-2.jpeg"
   }
 ]
