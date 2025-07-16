@@ -151,7 +151,7 @@ def handle_show_more_callback(call):
     bot.answer_callback_query(call.id)
     suggest_trip(call.message)
 
-
+#V4.2
 # ----------- inline area selection -----------
 @bot.message_handler(commands=["start"])
 def start(message):
