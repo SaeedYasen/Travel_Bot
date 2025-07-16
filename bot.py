@@ -20,26 +20,26 @@ class GeminiAnswer(BaseModel):
     answer: str
 
 
-@llm(
-    model="gemini/gemini-1.5-flash",
-    api_key=GEMINI_API_KEY,
-)
-def ask_gemini_about_trip(title: str, place: str,temp:int) -> str:
-    """
-    כתוב תקציר קצר ומעניין בעברית על אתר הטיול הבא:
-
-    כותרת: {title}
-    מיקום: {place}
-    טמפרטורה: {temp}
-
-    השתמש במידע הזה וכתוב תיאור ב-5 שורות לכל היותר, בפורמט של בולטים עם אימוג'ים.
-    כלול בקצרה:
-    - קצת היסטוריה על המקום
-    - מה אפשר לראות ולעשות שם (רק הדברים הכי חשובים)
-    - למה כדאי לבקר בו
-    - שעות פתיחה אם יש
-    - אל תשכח להחזיר את הפלט בפורמט טקסט שמתאים לטלגרם.
-    """
+# @llm(
+    # model="gemini/gemini-1.5-flash",
+    # api_key=GEMINI_API_KEY,
+# )
+# def ask_gemini_about_trip(title: str, place: str,temp:int) -> str:
+#     """
+#     כתוב תקציר קצר ומעניין בעברית על אתר הטיול הבא:
+#
+#     כותרת: {title}
+#     מיקום: {place}
+#     טמפרטורה: {temp}
+#
+#     השתמש במידע הזה וכתוב תיאור ב-5 שורות לכל היותר, בפורמט של בולטים עם אימוג'ים.
+#     כלול בקצרה:
+#     - קצת היסטוריה על המקום
+#     - מה אפשר לראות ולעשות שם (רק הדברים הכי חשובים)
+#     - למה כדאי לבקר בו
+#     - שעות פתיחה אם יש
+#     - אל תשכח להחזיר את הפלט בפורמט טקסט שמתאים לטלגרם.
+#     """
 
 
 def get_temp(city, api_wether):
@@ -120,18 +120,18 @@ def handle_feedback(call):
         else:
             bot.send_message(user_id, f"ℹ️ {trip['title']} is already in your trip history.")
 
-        try:
-            gemini_text = ask_gemini_about_trip(trip["title"], trip["place"], temp)
-        except Exception as e:
-            print("Gemini error:", e)
-            bot.send_message(user_id, f"❌ Failed to get more info from Gemini.\n")
-            return
+        # try:
+        #     gemini_text = ask_gemini_about_trip(trip["title"], trip["place"], temp)
+        # except Exception as e:
+        #     print("Gemini error:", e)
+        #     bot.send_message(user_id, f"❌ Failed to get more info from Gemini.\n")
+            # return
 
 
         markup = InlineKeyboardMarkup()
         markup.add(InlineKeyboardButton("Show More Adventures", callback_data="show_more"))
 
-        bot.send_message(user_id, f"📍{trip['title']}\n\n{gemini_text}", reply_markup=markup)
+        bot.send_message(user_id, f"📍{trip['title']}\n\nמזג האוויר היום: {temp}\n\n{trip["expanded_description"]}", reply_markup=markup)
     else:
         state["index"] += 1
         suggest_trip(call.message)
