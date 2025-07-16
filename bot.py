@@ -87,6 +87,8 @@ area_map = {
 @bot.callback_query_handler(func=lambda call: call.data in ["like", "dislike"])
 def handle_feedback(call):
     user_id = call.message.chat.id
+    logger.info(f"[User {user_id}] feedback: {call.data}")
+
     state = user_state.get(user_id)
 
     # בדיקה שהמשתמש התחיל עם /start ובחר אזור
@@ -198,6 +200,8 @@ def start(message):
 def handle_area_selection(call):
     user_id = call.message.chat.id
     selected_area = call.data.split("_")[1]
+    logger.info(f"[User {user_id}] selected area: {selected_area}")
+
     state = user_state.get(user_id)
 
     state["area"] = selected_area
@@ -337,7 +341,19 @@ def confirm_clear(message):
 @bot.message_handler(func=lambda m: m.text == "No")
 def cancel_clear(message):
     bot.send_message(message.chat.id, "❎ Trip history was not deleted.")
-
+@bot.message_handler(func=lambda m: True)
+def log_user_message(message):
+    user_id = message.chat.id
+    user_text = message.text
+    logger.info(f"[User {user_id}] sent message: {user_text}")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler("bot.log", encoding="utf-8"),
+        logging.StreamHandler()
+    ]
+)
 
 # ----------- Run bot -----------
 logger.info("> Bot is running...")
