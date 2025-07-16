@@ -151,21 +151,21 @@ def handle_show_more_callback(call):
     bot.answer_callback_query(call.id)
     suggest_trip(call.message)
 
-#V4.2
-# ----------- inline area selection -----------
+
 @bot.message_handler(commands=["start"])
 def start(message):
     user_id = message.chat.id
-    previous_history = user_state.get(user_id, {}).get("history", [])
-    previous_set = set(
-        json.dumps(item, sort_keys=True) for item in previous_history
-    )
+    previous_state = user_state.get(user_id, {})
+    previous_history = previous_state.get("history", [])
+    previous_index = previous_state.get("index", 0)
 
     user_state[user_id] = {
         "area": None,
-        "index": 0,
+        "index": previous_index,  # שמירה על ההתקדמות הקודמת
         "history": previous_history,
-        "history_set": previous_set
+        "history_set": set(
+            json.dumps(item, sort_keys=True) for item in previous_history
+        )
     }
 
     markup = InlineKeyboardMarkup()
@@ -182,15 +182,32 @@ def start(message):
 
 
 
+
 @bot.callback_query_handler(func=lambda call: call.data.startswith("area_"))
 def handle_area_selection(call):
     user_id = call.message.chat.id
     selected_area = call.data.split("_")[1]
-    user_state[user_id]["area"] = selected_area
-    user_state[user_id]["index"] = 0
+    state = user_state.get(user_id)
+
+    state["area"] = selected_area
+
+    # מיון כל הטיולים של האזור שנבחר
+    area_trips = [t for t in all_trips if t["area"] == selected_area]
+
+    # חישוב index לפי כמות טיולים שנשמרו מהאזור הזה
+    seen_titles = {item["title"] for item in state.get("history", []) if item["area"] == selected_area}
+    for i, trip in enumerate(area_trips):
+        if trip["title"] not in seen_titles:
+            state["index"] = i
+            break
+    else:
+        # אם כל הטיולים כבר נראו - נעבור לסוף הרשימה
+        state["index"] = len(area_trips)
+
     bot.answer_callback_query(call.id)
     bot.send_message(user_id, f"Great! You chose the {selected_area} 🌄\nLooking for a great trail for you...")
     suggest_trip(call.message)
+
 
 
 # ----------- send trip suggestion with inline like/dislike -----------
