@@ -20,26 +20,26 @@ class GeminiAnswer(BaseModel):
     answer: str
 
 
-# @llm(
-    # model="gemini/gemini-1.5-flash",
-    # api_key=GEMINI_API_KEY,
-# )
-# def ask_gemini_about_trip(title: str, place: str,temp:int) -> str:
-#     """
-#     כתוב תקציר קצר ומעניין בעברית על אתר הטיול הבא:
-#
-#     כותרת: {title}
-#     מיקום: {place}
-#     טמפרטורה: {temp}
-#
-#     השתמש במידע הזה וכתוב תיאור ב-5 שורות לכל היותר, בפורמט של בולטים עם אימוג'ים.
-#     כלול בקצרה:
-#     - קצת היסטוריה על המקום
-#     - מה אפשר לראות ולעשות שם (רק הדברים הכי חשובים)
-#     - למה כדאי לבקר בו
-#     - שעות פתיחה אם יש
-#     - אל תשכח להחזיר את הפלט בפורמט טקסט שמתאים לטלגרם.
-#     """
+@llm(
+    model="gemini/gemini-1.5-flash",
+    api_key=GEMINI_API_KEY,
+)
+def ask_gemini_about_trip(title: str, place: str,temp:int) -> str:
+    """
+    כתוב תקציר קצר ומעניין בעברית על אתר הטיול הבא:
+
+    כותרת: {title}
+    מיקום: {place}
+    טמפרטורה: {temp}
+
+    השתמש במידע הזה וכתוב תיאור ב-5 שורות לכל היותר, בפורמט של בולטים עם אימוג'ים.
+    כלול בקצרה:
+    - קצת היסטוריה על המקום
+    - מה אפשר לראות ולעשות שם (רק הדברים הכי חשובים)
+    - למה כדאי לבקר בו
+    - שעות פתיחה אם יש
+    - אל תשכח להחזיר את הפלט בפורמט טקסט שמתאים לטלגרם.
+    """
 
 
 def get_temp(city, api_wether):
@@ -82,36 +82,42 @@ area_map = {
 
 
 
-# ----------- feedback on suggestion (👍 / 👎) -----------
+# ----------- Feedback handler for 👍 / 👎 -----------
+
 @bot.callback_query_handler(func=lambda call: call.data in ["like", "dislike"])
 def handle_feedback(call):
     user_id = call.message.chat.id
-    message = call.message
     state = user_state.get(user_id)
-    if not state or not state["area"]:
+
+    # בדיקה שהמשתמש התחיל עם /start ובחר אזור
+    if not state or not state.get("area"):
         bot.send_message(user_id, "Please start by selecting an area using /start.")
         return
 
+    # קבלת רשימת טיולים לפי האזור הנבחר
     area_trips = [t for t in all_trips if t["area"] == state["area"]]
-    index = state["index"]
+    index = state.get("index", 0)
+
     if index >= len(area_trips):
         bot.send_message(user_id, "No more suggestions available.")
         return
 
     trip = area_trips[index]
     temp = state.get("last_temp", "N/A")
+
+    # פעולת "אהבתי" בלבד - שמירת הטיול בהיסטוריה והצגת תוכן מורחב
     if call.data == "like":
         saved = {
             "title": trip["title"],
             "area": trip["area"],
             "date": datetime.now().strftime("%B %d")
         }
+
         saved_json = json.dumps(saved, sort_keys=True)
 
-        if "history" not in state:
-            state["history"] = []
-        if "history_set" not in state:
-            state["history_set"] = set()
+        # שמירה למבנה היסטוריה ומניעת כפילויות
+        state.setdefault("history", [])
+        state.setdefault("history_set", set())
 
         if saved_json not in state["history_set"]:
             state["history_set"].add(saved_json)
@@ -120,18 +126,23 @@ def handle_feedback(call):
         else:
             bot.send_message(user_id, f"ℹ️ {trip['title']} is already in your trip history.")
 
-        # try:
-        #     gemini_text = ask_gemini_about_trip(trip["title"], trip["place"], temp)
-        # except Exception as e:
-        #     print("Gemini error:", e)
-        #     bot.send_message(user_id, f"❌ Failed to get more info from Gemini.\n")
-            # return
+        # ניסיון לשלוף מידע מורחב מג'מיני, fallback במקרה של שגיאה
+        try:
+            gemini_text = ask_gemini_about_trip(trip["title"], trip["place"], temp)
+        except Exception as e:
+            print("Gemini error:", e)
+            gemini_text = trip.get("expanded_description", "No additional description available.")
 
-
+        # שליחת תגובה עם מידע נוסף וכפתור "עוד הרפתקאות"
         markup = InlineKeyboardMarkup()
         markup.add(InlineKeyboardButton("Show More Adventures", callback_data="show_more"))
 
-        bot.send_message(user_id, f"📍{trip['title']}\n\nמזג האוויר היום: {temp}\n\n{trip["expanded_description"]}", reply_markup=markup)
+        bot.send_message(
+            user_id,
+            f"📍 {trip['title']}\n\nמזג האוויר היום: {temp}\n\n{gemini_text}",
+            reply_markup=markup
+        )
+
     else:
         state["index"] += 1
         suggest_trip(call.message)
