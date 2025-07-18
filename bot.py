@@ -13,9 +13,8 @@ from datetime import datetime
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from promptic import llm
 from pydantic import BaseModel
-from bot_secrets import GEMINI_API_KEY
+from bot_secrets import GEMINI_API_KEY,API_WHETHER
 
-API_WHETHER= "447b0fd0d5e02dd8fac6a15b1a682184"
 class GeminiAnswer(BaseModel):
     answer: str
 
